@@ -22,6 +22,17 @@ Alle Seiten sind verschlüsselt und teilen sich einen Schlüssel: Das Passwort w
 
 Die unverschlüsselten Arbeitsdateien liegen **nicht** in diesem öffentlichen Repository, sonst wäre der Passwortschutz wirkungslos.
 
+## Fotos
+
+Fotos werden **nicht** als lose Dateien abgelegt: Eine Datei wie `fotos/start.jpg` im Repository könnte jeder aufrufen, auch ohne Passwort. Stattdessen werden Fotos in die Arbeitsdatei eingebettet und so mit der Seite zusammen verschlüsselt:
+
+1. Foto vorbereiten: auf ca. 1400 px Breite verkleinern, als JPEG mit Qualität 75–80 speichern (unter 300 KB).
+2. Einbetten: `python3 werkzeuge/foto-einbetten.py arbeit/entwurf4.html start fotos/start.jpg`
+   Der Name (`start`) bezeichnet die Stelle auf der Seite. In Entwurf 4 gibt es: `start` (großes Startfoto), `portraet`, `tanz1`, `tanz2`, `video`.
+3. Danach die Seite wie unten beschrieben schützen und veröffentlichen.
+
+Entfernen: `python3 werkzeuge/foto-einbetten.py arbeit/entwurf4.html start --weg`
+
 ## Neue Version veröffentlichen
 
 1. Arbeitsdateien bearbeiten (lokal, z. B. in einem Ordner `arbeit/`).
