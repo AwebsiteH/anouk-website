@@ -28,7 +28,8 @@ Fotos werden **nicht** als lose Dateien abgelegt: Eine Datei wie `fotos/start.jp
 
 1. Foto vorbereiten: auf ca. 1400 px Breite verkleinern, als JPEG mit Qualität 75–80 speichern (unter 300 KB).
 2. Einbetten: `python3 werkzeuge/foto-einbetten.py arbeit/entwurf4.html start fotos/start.jpg`
-   Der Name (`start`) bezeichnet die Stelle auf der Seite. In Entwurf 4 gibt es: `start` (großes Startfoto), `portraet`, `tanz1`, `tanz2` (Hochformat 3:4), `tanz3` (Querformat 16:9).
+   Der Name (`start`) bezeichnet die Stelle auf der Seite. In Entwurf 4 gibt es: `start` (großes Startfoto, Querformat), `portraet`, `tanz1`, `tanz2` (Hochformat 3:4).
+   Video (optional): in der Arbeitsdatei bei `data-video=""` die Adresse eintragen, z. B. ein nicht gelistetes YouTube-Video als `https://www.youtube-nocookie.com/embed/KENNUNG` oder eine `.mp4`-Datei. Leer gelassen bleibt der Platzhalter stehen.
 3. Danach die Seite wie unten beschrieben schützen und veröffentlichen.
 
 Entfernen: `python3 werkzeuge/foto-einbetten.py arbeit/entwurf4.html start --weg`
