@@ -28,10 +28,12 @@ Fotos werden **nicht** als lose Dateien abgelegt: Eine Datei wie `fotos/start.jp
 
 1. Foto vorbereiten: auf ca. 1400 px Breite verkleinern, als JPEG mit Qualität 75–80 speichern (unter 300 KB).
 2. Einbetten: `python3 werkzeuge/foto-einbetten.py arbeit/entwurf4.html start fotos/start.jpg`
-   Der Name (`start`) bezeichnet die Stelle auf der Seite. In Entwurf 4 gibt es: `start` (großes Startfoto), `portraet`, `tanz1`, `tanz2`, `video`.
+   Der Name (`start`) bezeichnet die Stelle auf der Seite. In Entwurf 4 gibt es: `start` (großes Startfoto), `portraet`, `tanz1`, `tanz2` (Hochformat 3:4), `tanz3` (Querformat 16:9).
 3. Danach die Seite wie unten beschrieben schützen und veröffentlichen.
 
 Entfernen: `python3 werkzeuge/foto-einbetten.py arbeit/entwurf4.html start --weg`
+
+Die derzeit eingebetteten Bilder sind **Beispielfotos**. Sie tragen auf der Seite das Schild „Beispielfoto“, weil an der jeweiligen Fotostelle in der Arbeitsdatei `data-beispiel` steht. Sobald ein echtes Foto eingebettet ist, dieses Wort an der Stelle löschen.
 
 ## Neue Version veröffentlichen
 
