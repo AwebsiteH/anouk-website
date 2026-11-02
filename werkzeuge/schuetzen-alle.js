@@ -6,13 +6,22 @@
 // Beispiel: node werkzeuge/schuetzen-alle.js geschuetzt "GeheimesWort" arbeit/index.html arbeit/entwurf1.html arbeit/entwurf2.html
 // Jede Seite landet unter ihrem eigenen Dateinamen im Zielordner. kopf.html und fonts/fonts.css werden,
 // falls vorhanden, aus dem Ordner der ersten Quelldatei übernommen (wie bei schuetzen.js).
+//
+// Nur einzelne Seiten neu schützen, ohne alle anderen anzufassen:
+//   node werkzeuge/schuetzen-alle.js --wie index.html geschuetzt "<Passwort>" arbeit/entwurf4.html
+// „--wie <geschützte Seite>“ übernimmt den Salt dieser bereits veröffentlichten Seite, damit die neue Seite
+// denselben Schlüssel bekommt und sich nach einmaliger Passworteingabe mit öffnet.
 const fs = require("fs");
 const path = require("path");
 const crypto = require("crypto");
 
-const [, , destDir, password, ...sources] = process.argv;
+let args = process.argv.slice(2);
+let wie = null;
+const wieIndex = args.indexOf("--wie");
+if (wieIndex !== -1) { wie = args[wieIndex + 1]; args.splice(wieIndex, 2); }
+const [destDir, password, ...sources] = args;
 if (!destDir || !password || sources.length === 0) {
-  console.error('Aufruf: node schuetzen-alle.js <zielordner> "<Passwort>" <seite1.html> [<seite2.html> ...]');
+  console.error('Aufruf: node schuetzen-alle.js [--wie <geschuetzte-seite.html>] <zielordner> "<Passwort>" <seite1.html> [<seite2.html> ...]');
   process.exit(1);
 }
 fs.mkdirSync(destDir, { recursive: true });
@@ -23,7 +32,15 @@ const fontsCss = fs.existsSync(path.join(baseDir, "fonts", "fonts.css")) ? fs.re
 const kopf = fs.existsSync(path.join(baseDir, "kopf.html")) ? fs.readFileSync(path.join(baseDir, "kopf.html"), "utf8").replace(/<meta name="robots"[^>]*>/, "") : "";
 
 // Ein Salt und damit ein Schlüssel für alle Seiten dieses Durchlaufs.
-const salt = crypto.randomBytes(16);
+let salt;
+if (wie) {
+  const m = fs.readFileSync(wie, "utf8").match(/<script id="payload" type="application\/json">(.*?)<\/script>/s);
+  if (!m) { console.error("In " + wie + " wurde kein verschlüsselter Inhalt gefunden."); process.exit(1); }
+  salt = Buffer.from(JSON.parse(m[1]).salt, "base64");
+  console.log("Salt übernommen aus:", wie);
+} else {
+  salt = crypto.randomBytes(16);
+}
 const key = crypto.pbkdf2Sync(password, salt, ITERATIONS, 32, "sha256");
 
 function gate(payload) {
